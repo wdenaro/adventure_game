@@ -47,7 +47,7 @@ game_map = {
     4: {
         'name': 'BELL TOWER',
         'short_desc': 'YOU ARE IN THE BELL TOWER',
-        'long_desc': 'YOU FIND YOURSELF IN THE BELL TOWER. THERE IS FAINT MUSIC COMING FROM THE WEST',
+        'long_desc': 'YOU FIND YOURSELF IN THE BELL TOWER. THERE IS FAINT MUSIC COMING FROM THE WEST.',
         'travel': [0, 0, 0, 10, 0, 2, 0],
         'is_lit': True,
         'points': 10
@@ -88,17 +88,41 @@ game_map = {
         'name': 'DRAINAGE DITCH',
         'short_desc': 'YOU ARE IN A DRAINAGE DITCH',
         'long_desc': 'YOU HAVE SLID DOWN TO THE BOTTOM OF THE DRAINAGE DITCH.',
-        'travel': [0, 0, 0, 0, 8, 0, 0],
+        'travel': [0, 0, 0, 0, 8, 11, 0],
         'is_lit': True,
         'points': 10
     },
     10: {
-        'name': 'BELL TOWER ',
+        'name': 'BELL TOWER',
         'short_desc': 'YOU ARE IN THE WEST END OF THE BELL TOWER',
         'long_desc': 'YOU ARE IN THE BELL TOWER AND CAN SEE THERE IS MORE BELL TOWER TO THE EAST. YOU HEAR MUSIC COMING FROM BELOW.',
         'travel': [0, 4, 0, 0, 0, 6, 0],
         'is_lit': True,
         'points': 5
+    },
+    11: {
+        'name': 'DRAIN PIPE',
+        'short_desc': 'YOU ARE IN A RATHER SMALL DRAIN PIPE',
+        'long_desc': 'YOU ARE IN A RATHER SMALL DRAIN PIPE, LOOKS LIKE THERE IS A DRAINAGE DITCH TO THE WEST AND VERY DARK PIPE LEADING EAST.',
+        'travel': [0, 12, 0, 9, 0, 0, 0],
+        'is_lit': True,
+        'points': 10
+    },
+    12: {
+        'name': 'DRAINAGE PIPE',
+        'short_desc': 'YOU ARE IN A RATHER SMALL DARK DRAINAGE PIPE',
+        'long_desc': 'YOU ARE IN A RATHER SMALL DRAINAGE PIPE, OTHER DARK PIPES LEAD OFF IN ALL DIRECTIONS.',
+        'travel': [14, 12, 11, 12, 14, 12, 0],
+        'is_lit': False,
+        'points': 10
+    },
+    14: {
+        'name': 'DRAINAGE PIPE MAZE',
+        'short_desc': 'YOU ARE IN A MAZE OF DARK DRAINAGE PIPES',
+        'long_desc': 'YOU ARE IN A MAZE OF DARK DRAINAGE PIPES, DIFFICULT TO DETERMINE WHICH WAY IS WHICH.',
+        'travel': [14, 12, 14, 12, 14, 12, 0],
+        'is_lit': False,
+        'points': 15
     }
 }
 
@@ -107,7 +131,7 @@ obstacles = {
     1: {
         'name': 'STEEL DOOR',
         'short_desc': 'LOCKED STEEL DOOR',
-        'long_desc': 'THE PASSAGE IS BLOCKED BY A HEAVY STEEL DOOR',
+        'long_desc': 'THE PASSAGE IS BLOCKED BY A HEAVY STEEL DOOR.',
         'defeated_by': [2],  # Object ID that will overcome this obstacle
         'points': 5,
         'replaced_by': [0]  # Obstacle is not replaced, effectively disappears from gameplay
@@ -115,7 +139,7 @@ obstacles = {
     2: {
         'name': 'WOOD DOOR',
         'short_desc': 'A LOCKED WOODEN DOOR',
-        'long_desc': 'THE PASSAGE IS BLOCKED BY A VERY HEAVY WOODEN DOOR',
+        'long_desc': 'THE PASSAGE IS BLOCKED BY A VERY HEAVY WOODEN DOOR.',
         'defeated_by': [2],
         'points': 5,
         'replaced_by': [0]
@@ -123,7 +147,7 @@ obstacles = {
     3: {
         'name': 'DRAGON',
         'short_desc': 'A LARGE DRAGON',
-        'long_desc': 'A FIRE-BREATHING DRAGON, VERY MENACING AND VERY DEADLY',
+        'long_desc': 'A FIRE-BREATHING DRAGON, VERY MENACING AND VERY DEADLY.',
         'defeated_by': [3, 4],   # Object IDs that will overcome this obstacle
         'points': 100,
         'replaced_by': [3]  # Obstacle that is swapped in, once obstacle is defeated
@@ -131,7 +155,7 @@ obstacles = {
     4: {
         'name': 'DEAD DRAGON',
         'short_desc': 'A LARGE DEAD DRAGON',
-        'long_desc': 'THE DEAD BODY OF A LARGE DRAGON',
+        'long_desc': 'THE DEAD BODY OF A LARGE DRAGON.',
         'defeated_by': [0],  # Object is simply present in gameplay, need not be defeated
         'points': 0,
         'replaced_by': [(4, 10)]  # obstacle that is swapped in after second parameter of turns
@@ -139,7 +163,7 @@ obstacles = {
     5: {
         'name': 'ROTTING CARCASS',
         'short_desc': 'A LARGE ROTTING CARCASS',
-        'long_desc': 'HERE LIES THE ROTTING CARCASS OF WHAT APPEARS TO HAVE BEEN A LARGE DRAGON',
+        'long_desc': 'HERE LIES THE ROTTING CARCASS OF WHAT APPEARS TO HAVE BEEN A LARGE DRAGON.',
         'defeated_by': [0],
         'points': 0,
         'replaced_by': [-1]  # Indicates it is still in gameplay, and will remain in this state for duration
@@ -208,5 +232,6 @@ objects = {
 object_placement = [
     # Room, Object
     [6, 2],  # Lounge, Skeleton Key
-    [9, 3]   # Drainage Ditch, Sword
+    [9, 3],  # Drainage Ditch, Sword
+    [14, 1]  # Pipe Maze, Coin
 ]

@@ -2,7 +2,7 @@ import game_data
 import random
 
 current_room = 1
-inventory = [1]
+inventory = []
 turn_total = 1
 score = 50
 
@@ -97,7 +97,6 @@ def display_room_text(room, version):
 
 
 def convert_dir_num_to_readable(direction):
-
     return game_data.directions[direction][3]
 
 
