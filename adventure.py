@@ -2,7 +2,7 @@ import game_data
 import random
 
 current_room = 1
-inventory = [1, 4, 5]
+inventory = [1]
 turn_total = 1
 score = 50
 
@@ -174,13 +174,21 @@ def initiate_move(command):
             score -= 5
         else:
             current_room = _val
+            score += game_data.game_map[current_room]['points']  # Award points (when applicable)
+            game_data.game_map[current_room]['points'] = 0  # Reduce points (awarded only once)
+
             display_room_text(current_room, 'long')
             display_room_obstacles(current_room)
             display_room_objects(current_room)
 
 
 def display_inventory(long=False):
-    global inventory
+    '''
+    Pass this function a Directional long (BOOL) to Display information to the player.
+
+    :param long:
+    :return:
+    '''
 
     if len(inventory) > 0:
         word = 'ITEM' if len(inventory) == 1 else 'ITEMS'
@@ -193,10 +201,19 @@ def display_inventory(long=False):
             print(f'  {item}')
 
     else:
-        print('\nYOU HAVE A BACKPACK, BUT A QUICK LOOK REVEALS IT IS EMPTY')
+        print('\nYOU HAVE A BACKPACK, BUT A QUICK INSPECTION REVEALS IT IS EMPTY')
 
 
 def drop_object(command):
+    '''
+    Pass this function a Drop Command (STR), ignore the "drop " portion of the command and check for trailing string
+    to match Object short name. If the object is identified and the player holds it, transfer it from inventory into
+    the room. Display result to the player.
+
+    :param command:
+    :return:
+    '''
+
     _object = command[5:]
 
     drop_success = False
@@ -215,7 +232,30 @@ def drop_object(command):
 
 
 def take_object(command):
-    print('GAME DEVELOPMENT IN PROGRESS')
+    '''
+    Pass this function a Take Command (STR), ignore the "take " portion of the command and check for trailing string
+    to match Object short name. If the object is identified and the object is in the room, transfer it to inventory from
+    the room. Display result to the player.
+
+    :param command:
+    :return:
+    '''
+
+    _object = command[5:]
+
+    take_success = False
+
+    for _o in game_data.object_placement:
+        if _o[0] == current_room and game_data.objects[_o[1]]['short_name'] == _object:
+            inventory.append(_o[1])
+            game_data.object_placement.remove(_o)
+            take_success = True
+            break
+
+    if take_success:
+        print(f'YOU HAVE ADDED THE {_object} TO YOUR INVENTORY')
+    else:
+        print(f'THERE DOES NOT SEEM TO BE A {_object} HERE TO TAKE')
 
 
 def display_room_help_text():
@@ -260,11 +300,12 @@ def player_input(room=current_room):
 
     elif command == 'INV' or command == 'INVENTORY' or command == 'SHOW INVENTORY':
         display_inventory(False)
+        score -= 1
 
     elif command[0:4] == 'DROP':
         drop_object(command)
 
-    elif command[0:4] == 'TAKE' or command[0:3] == 'GET':
+    elif command[0:4] == 'TAKE':
         take_object(command)
 
     elif command == 'HELP':

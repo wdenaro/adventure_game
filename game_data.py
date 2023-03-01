@@ -26,7 +26,7 @@ game_map = {
         'long_desc': 'YOU ARE STANDING ON A LONG BRIDGE THAT LEADS NORTH TO A CASTLE.',
         'travel': [2, 0, 7, 0, 0, 0, 0],
         'is_lit': True,
-        'bonus_points': 0
+        'points': 0
     },
     2: {
         'name': 'GREAT HALL',
@@ -34,7 +34,7 @@ game_map = {
         'long_desc': 'YOU ARE STANDING IN A GREAT HALL, THERE IS MUSIC COMING FROM THE WEST. TO THE EAST, YOU CAN SEE A ROOM WITH WHAT LOOKS LIKE A BEAR INSIDE.',
         'travel': [0, 3, 1, 6, 4, 0, 0],
         'is_lit': True,
-        'bonus_points': 0
+        'points': 5
     },
     3: {
         'name': 'TROPHY ROOM',
@@ -42,7 +42,7 @@ game_map = {
         'long_desc': 'YOU ARE STANDING IN THE TROPHY ROOM, THERE IS 9-FOOT GRIZZLY BEAR STANDING ON IT\'S HIND LEGS LOOKING RIGHT AT YOU. LUCKILY YOU QUICKLY REALIZE IT\'S STUFFED.',
         'travel': [0, 0, 0, 2, 0, 5, 0],
         'is_lit': True,
-        'bonus_points': 0
+        'points': 5
     },
     4: {
         'name': 'BELL TOWER',
@@ -50,7 +50,7 @@ game_map = {
         'long_desc': 'YOU FIND YOURSELF IN THE BELL TOWER. THERE IS FAINT MUSIC COMING FROM THE WEST',
         'travel': [0, 0, 0, 10, 0, 2, 0],
         'is_lit': True,
-        'bonus_points': 0
+        'points': 10
     },
     5: {
         'name': 'DUNGEON',
@@ -58,7 +58,7 @@ game_map = {
         'long_desc': 'YOU ARE IN A DIMLY LIT DUNGEON. YOU ARE SURROUNDED BY DOZENS OF BROKEN PINBALL MACHINES.',
         'travel': [0, 0, 0, 0, 3, 0, 0],
         'is_lit': True,
-        'bonus_points': -10
+        'points': 5
     },
     6: {
         'name': 'LOUNGE',
@@ -66,7 +66,7 @@ game_map = {
         'long_desc': 'YOU ARE IN A LOUNGE THAT FEATURES A LARGE GOLDEN GLOBE IN THE CENTER. YOU HEAR A SITAR PLAYING.',
         'travel': [0, 2, 0, 0, 10, 0, 0],
         'is_lit': True,
-        'bonus_points': 0
+        'points': 5
     },
     7: {
         'name': 'GRAVEL ROAD',
@@ -74,7 +74,7 @@ game_map = {
         'long_desc': 'YOU ARE STANDING ALONGSIDE A LONG, GRAVEL ROAD. YOU CAN SEE A CASTLE TO THE NORTH.',
         'travel': [1, 0, 8, 0, 0, 0, 0],
         'is_lit': True,
-        'bonus_points': 0
+        'points': 0
     },
     8: {
         'name': 'GRAVELY ROAD',
@@ -82,7 +82,7 @@ game_map = {
         'long_desc': 'YOU ARE STANDING ON A LONG, GRAVELY ROAD. THERE IS A DRAINAGE DITCH TO THE EAST.',
         'travel': [7, 9, 0, 0, 0, 9, 0],
         'is_lit': True,
-        'bonus_points': 0
+        'points': 0
     },
     9: {
         'name': 'DRAINAGE DITCH',
@@ -90,7 +90,7 @@ game_map = {
         'long_desc': 'YOU HAVE SLID DOWN TO THE BOTTOM OF THE DRAINAGE DITCH.',
         'travel': [0, 0, 0, 0, 8, 0, 0],
         'is_lit': True,
-        'bonus_points': 25
+        'points': 10
     },
     10: {
         'name': 'BELL TOWER ',
@@ -98,7 +98,7 @@ game_map = {
         'long_desc': 'YOU ARE IN THE BELL TOWER AND CAN SEE THERE IS MORE BELL TOWER TO THE EAST. YOU HEAR MUSIC COMING FROM BELOW.',
         'travel': [0, 4, 0, 0, 0, 6, 0],
         'is_lit': True,
-        'bonus_points': 25
+        'points': 5
     }
 }
 
@@ -108,35 +108,40 @@ obstacles = {
         'name': 'STEEL DOOR',
         'short_desc': 'LOCKED STEEL DOOR',
         'long_desc': 'THE PASSAGE IS BLOCKED BY A HEAVY STEEL DOOR',
-        'defeated_by': [1],  # Object ID that will overcome this obstacle
-        'replaced_by': [0]  # Object is not replaced, effectively disappears from gameplay
+        'defeated_by': [2],  # Object ID that will overcome this obstacle
+        'points': 5,
+        'replaced_by': [0]  # Obstacle is not replaced, effectively disappears from gameplay
     },
     2: {
         'name': 'WOOD DOOR',
         'short_desc': 'A LOCKED WOODEN DOOR',
         'long_desc': 'THE PASSAGE IS BLOCKED BY A VERY HEAVY WOODEN DOOR',
-        'defeated_by': [1, 2],
+        'defeated_by': [2],
+        'points': 5,
         'replaced_by': [0]
     },
     3: {
         'name': 'DRAGON',
         'short_desc': 'A LARGE DRAGON',
         'long_desc': 'A FIRE-BREATHING DRAGON, VERY MENACING AND VERY DEADLY',
-        'defeated_by': [2, 3],   # Object IDs that will overcome this obstacle
-        'replaced_by': [3]  # Object that is swapped in, once obstacle is defeated
+        'defeated_by': [3, 4],   # Object IDs that will overcome this obstacle
+        'points': 100,
+        'replaced_by': [3]  # Obstacle that is swapped in, once obstacle is defeated
     },
     4: {
         'name': 'DEAD DRAGON',
         'short_desc': 'A LARGE DEAD DRAGON',
         'long_desc': 'THE DEAD BODY OF A LARGE DRAGON',
         'defeated_by': [0],  # Object is simply present in gameplay, need not be defeated
-        'replaced_by': [(4, 10)]  # Object that is swapped in after second parameter of turns
+        'points': 0,
+        'replaced_by': [(4, 10)]  # obstacle that is swapped in after second parameter of turns
     },
     5: {
         'name': 'ROTTING CARCASS',
         'short_desc': 'A LARGE ROTTING CARCASS',
         'long_desc': 'HERE LIES THE ROTTING CARCASS OF WHAT APPEARS TO HAVE BEEN A LARGE DRAGON',
         'defeated_by': [0],
+        'points': 0,
         'replaced_by': [-1]  # Indicates it is still in gameplay, and will remain in this state for duration
     },
     6: {
@@ -144,6 +149,7 @@ obstacles = {
         'short_desc': 'LOTS OF DEBRIS',
         'long_desc': 'THE BOTTOM OF THE DRAINAGE DITCH IS LITTERED WITH VARIOUS BITS OF DEBRIS AND DETRITUS.',
         'defeated_by': [0],
+        'points': 0,
         'replaced_by': [-1]
     }
 }
