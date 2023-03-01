@@ -2,7 +2,7 @@ import game_data
 import random
 
 current_room = 1
-inventory = [1]
+inventory = [1, 4, 5]
 turn_total = 1
 score = 50
 
@@ -196,6 +196,28 @@ def display_inventory(long=False):
         print('\nYOU HAVE A BACKPACK, BUT A QUICK LOOK REVEALS IT IS EMPTY')
 
 
+def drop_object(command):
+    _object = command[5:]
+
+    drop_success = False
+
+    for key, value in game_data.objects.items():
+        if _object == value['short_name'] and key in inventory:
+            inventory.remove(key)
+            game_data.object_placement.append([current_room, key])
+            drop_success = True
+            break
+
+    if drop_success:
+        print(f'\nYOU HAVE DROPPED THE {_object}')
+    else:
+        print(f'\nYOU DON\'T SEEM TO HAVE A {_object} TO DROP')
+
+
+def take_object(command):
+    print('GAME DEVELOPMENT IN PROGRESS')
+
+
 def display_room_help_text():
     print('\n---------------------------------')
     print('YOU ARE IN A TEXT ADVENTURE GAME.')
@@ -238,6 +260,12 @@ def player_input(room=current_room):
 
     elif command == 'INV' or command == 'INVENTORY' or command == 'SHOW INVENTORY':
         display_inventory(False)
+
+    elif command[0:4] == 'DROP':
+        drop_object(command)
+
+    elif command[0:4] == 'TAKE' or command[0:3] == 'GET':
+        take_object(command)
 
     elif command == 'HELP':
         display_room_help_text()
