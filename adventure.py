@@ -257,6 +257,10 @@ def take_object(command):
         print(f'\nTHERE DOES NOT SEEM TO BE A {_object} HERE TO TAKE')
 
 
+def display_empty_request():
+    print(f'\nSUBMITTING AN EMPTY REQUEST DOES NOTHING BUT COST YOU A TURN.')
+
+
 def special_commands(command):
     global turn_total
 
@@ -265,6 +269,19 @@ def special_commands(command):
             print(f'\nYOU STRIKE THE BELL WITH YOUR CLOSED FIST, THE BELL RESPONDS WITH A VERY LOW AND QUIET HUM... AND YOUR HAND THROBS.')
         else:
             print(f'\nSORRY, THERE IS NO BELL TO RING')
+
+    elif command == 'LIFT PORTCULLIS' or command == 'LIFT GATE':
+        if current_room == 16:  # Only works at the castle entrance
+            for _obj in game_data.obst_placement:
+                if _obj[0] == 16:
+                    if _obj[1] == 7:
+                        print(f'\nYOU LIFT THE {command[5:]} WITHOUT ANY ISSUE AT ALL. YOU THINK \'WOW\', THAT WAS EASY.')
+                        _obj[1] = 8
+                    else:
+                        print(f'\nTHE {command[5:]} ALREADY IN THE UP POSITION, A STRONG ADVENTURER CAME BY AND LIFTED IT EARLIER.')
+                    break
+        else:
+            print(f'\nSORRY, THERE IS NO {command[5:]} HERE TO LIFT')
 
     elif command == 'SLEEP' or command == 'TAKE A NAP' or command == 'LIE DOWN' or command == 'LAY DOWN':
         print(f'\nSUDDENLY, FEELING VERY TIRED, YOU LIE DOWN ON THE VERY SPOT YOU WERE STANDING AND FALL FAST ASLEEP.')
@@ -323,10 +340,13 @@ def player_input(room=current_room):
 
     elif command == 'INV' or command == 'INVENTORY' or command == 'SHOW INVENTORY':
         display_inventory(False)
-        score -= 1
 
     elif command in game_data.special_commands:
         special_commands(command)
+
+    elif command == '':
+        display_empty_request()
+        score -= 1
 
     elif command == 'HELP':
         display_room_help_text()
@@ -337,7 +357,7 @@ def player_input(room=current_room):
     else:
         print('\nSORRY, I DO NOT UNDERSTAND YOUR REQUEST')
         display_room_text(current_room, 'short')
-        score -= 5
+        score -= 1
 
 
 if __name__ == '__main__':

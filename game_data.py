@@ -18,17 +18,13 @@ directional_moves = [
     'CLIMB UP', 'CLIMB DOWN'
 ]
 
-special_commands = [
-    'RING BELL', 'RING THE BELL', 'SLEEP', 'TAKE A NAP', 'LIE DOWN', 'LAY DOWN'
-]
-
 # Map Data is indexed by Room Number and has stuff within
 game_map = {
     1: {
         'name': 'BRIDGE',
         'short_desc': 'YOU ARE ON A BRIDGE',
-        'long_desc': 'YOU ARE STANDING ON A LONG BRIDGE THAT LEADS NORTH TO A CASTLE.',
-        'travel': [2, 0, 7, 0, 0, 0, 0],
+        'long_desc': 'YOU ARE STANDING ON A LONG, LOW BRIDGE THAT LEADS NORTH TO A CASTLE.',
+        'travel': [16, 0, 7, 0, 0, 0, 0],
         'is_lit': True,
         'points': 0
     },
@@ -36,7 +32,7 @@ game_map = {
         'name': 'GREAT HALL',
         'short_desc': 'YOU ARE IN THE GREAT HALL',
         'long_desc': 'YOU ARE STANDING IN A GREAT HALL, THERE IS MUSIC COMING FROM THE WEST. TO THE EAST, YOU CAN SEE A ROOM WITH WHAT LOOKS LIKE A BEAR INSIDE.',
-        'travel': [0, 3, 1, 6, 4, 0, 0],
+        'travel': [0, 3, 16, 6, 4, 0, 0],
         'is_lit': True,
         'points': 5
     },
@@ -135,6 +131,22 @@ game_map = {
         'travel': [0, 0, 0, 0, 0, 4, 0],
         'is_lit': True,
         'points': 10
+    },
+    16: {
+        'name': 'CASTLE GATE',
+        'short_desc': 'YOU ARE AT THE CASTLE ENTRANCE',
+        'long_desc': 'YOU ARE STANDING AT THE CASTLE ENTRANCE, A LARGE STONE ARCHWAY LEADS NORTH INTO THE CASTLE. A WELL WORN DIRT PATH LEADS WEST AROUND THE CASTLE.',
+        'travel': [2, 0, 1, 17, 0, 0, 0],
+        'is_lit': True,
+        'points': 0
+    },
+    17: {
+        'name': 'DIRT PATH',
+        'short_desc': 'YOU ARE ON A DIRT PATH',
+        'long_desc': 'YOU ARE WALKING ALONGSIDE THE TOWERING CASTLE WALL, THE PATH CONTINUES TO THE WEST AND EAST. THE WALL ON ONE SIDE OF YOU AND A MOAT ON THE OTHER.',
+        'travel': [0, 16, 0, 0, 0, 0, 0],
+        'is_lit': True,
+        'points': 0
     }
 }
 
@@ -187,6 +199,22 @@ obstacles = {
         'defeated_by': [0],
         'points': 0,
         'replaced_by': [-1]
+    },
+    7: {
+        'name': 'PORTCULLIS',
+        'short_desc': 'A FORMIDABLE IRON PORTCULLIS',
+        'long_desc': 'AN INTIMIDATING AND FORMIDABLE IRON PORTCULLIS, IT IS DOWN AND THE ENTRANCE IS BLOCKED.',
+        'defeated_by': [999],
+        'points': 15,
+        'replaced_by': [8]
+    },
+    8: {
+        'name': 'PORTCULLIS',
+        'short_desc': 'THE PORTCULLIS IS UP',
+        'long_desc': 'THE IRON PORTCULLIS IS IN THE UP POSITION, YOU MAY TRAVEL THROUGH FREELY.',
+        'defeated_by': [0],
+        'points': 0,
+        'replaced_by': [-1]
     }
 }
 
@@ -195,6 +223,7 @@ obst_placement = [
     # Room, Obstacle, Position, ID
     # (ID makes the obstacle uniquely identifiable, allowing use of more than one and can
     # define a placement between rooms - unlock door between rooms 2 & 6 for example)
+    [16, 7, 0, 4],  # Castle Gate: Portcullis, North
     [2, 2, 3, 1],  # Great Hall: Wooden Door, West
     [6, 2, 1, 1],  # Lounge: Wooden Door, East
     [9, 6, 5, 3]  # Ditch: Debris, Down
@@ -245,4 +274,9 @@ object_placement = [
     [6, 2],  # Lounge, Skeleton Key
     [9, 3],  # Drainage Ditch, Sword
     [14, 1]  # Pipe Maze, Coin
+]
+
+
+special_commands = [
+    'RING BELL', 'RING THE BELL', 'SLEEP', 'TAKE A NAP', 'LIE DOWN', 'LAY DOWN', 'LIFT PORTCULLIS', 'LIFT GATE'
 ]
