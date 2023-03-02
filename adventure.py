@@ -270,7 +270,7 @@ def special_commands(command):
         else:
             print(f'\nSORRY, THERE IS NO BELL TO RING')
 
-    elif command == 'LIFT PORTCULLIS' or command == 'LIFT GATE':
+    elif command == 'LIFT PORTCULLIS' or command == 'LIFT GATE' or command == 'OPEN PORTCULLIS' or command == 'OPEN GATE':
         if current_room == 16:  # Only works at the castle entrance
             for _obj in game_data.obst_placement:
                 if _obj[0] == 16:
@@ -282,6 +282,19 @@ def special_commands(command):
                     break
         else:
             print(f'\nSORRY, THERE IS NO {command[5:]} HERE TO LIFT')
+
+    elif command == 'READ SIGN':
+        if current_room == 17:
+            sign_text = game_data.obstacles[9]['text']
+            print(f'\n{sign_text}')
+
+        elif current_room == 18:
+            sign_text = game_data.obstacles[10]['text']
+            print(f'\n{sign_text}')
+
+        else:
+            print(f'\nTHERE IS NO SIGN TO READ HERE')
+
 
     elif command == 'SLEEP' or command == 'TAKE A NAP' or command == 'LIE DOWN' or command == 'LAY DOWN':
         print(f'\nSUDDENLY, FEELING VERY TIRED, YOU LIE DOWN ON THE VERY SPOT YOU WERE STANDING AND FALL FAST ASLEEP.')

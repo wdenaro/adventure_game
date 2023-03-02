@@ -144,7 +144,15 @@ game_map = {
         'name': 'DIRT PATH',
         'short_desc': 'YOU ARE ON A DIRT PATH',
         'long_desc': 'YOU ARE WALKING ALONGSIDE THE TOWERING CASTLE WALL, THE PATH CONTINUES TO THE WEST AND EAST. THE WALL ON ONE SIDE OF YOU AND A MOAT ON THE OTHER.',
-        'travel': [0, 16, 0, 0, 0, 0, 0],
+        'travel': [0, 16, 0, 18, 0, 0, 0],
+        'is_lit': True,
+        'points': 0
+    },
+    18: {
+        'name': 'DIRT PATH',
+        'short_desc': 'YOU ARE ON A DIRT PATH',
+        'long_desc': 'YOU ARE CONTINUING ALONGSIDE THE TOWERING CASTLE WALL, THE PATH CONTINUES TO THE WEST AND EAST. THE WALL ON ONE SIDE OF YOU AND A MOAT ON THE OTHER.',
+        'travel': [0, 17, 0, 0, 0, 0, 0],
         'is_lit': True,
         'points': 0
     }
@@ -215,6 +223,24 @@ obstacles = {
         'defeated_by': [0],
         'points': 0,
         'replaced_by': [-1]
+    },
+    9: {
+        'name': 'SIGN',
+        'short_desc': 'A SMALL PAINTED SIGN',
+        'long_desc': 'A SMALL SIGN IS ATTACHED TO THE CASTLE WALL.',
+        'text': 'IT READS \'DO NOT CLIMB WALL - THANK YOU, CASTLE MANAGEMENT\'',
+        'defeated_by': [0],
+        'points': 0,
+        'replaced_by': [-1]
+    },
+    10: {
+        'name': 'SIGN',
+        'short_desc': 'A SMALL PAINTED SIGN',
+        'long_desc': 'A SMALL SIGN IS MORTARED INTO THE CASTLE WALL.',
+        'text': 'IT READS \'QUALITY STONEWORK BY DUNSTAN THE CASTLE-BUILDER, 1353 AD\'',
+        'defeated_by': [0],
+        'points': 0,
+        'replaced_by': [-1]
     }
 }
 
@@ -226,7 +252,9 @@ obst_placement = [
     [16, 7, 0, 4],  # Castle Gate: Portcullis, North
     [2, 2, 3, 1],  # Great Hall: Wooden Door, West
     [6, 2, 1, 1],  # Lounge: Wooden Door, East
-    [9, 6, 5, 3]  # Ditch: Debris, Down
+    [9, 6, 5, 3],  # Ditch: Debris, Down
+    [17, 9, 0, 5],  # Path: Sign, North
+    [18, 10, 0, 6]  # Path: Sign, North
 ]
 
 
@@ -278,5 +306,6 @@ object_placement = [
 
 
 special_commands = [
-    'RING BELL', 'RING THE BELL', 'SLEEP', 'TAKE A NAP', 'LIE DOWN', 'LAY DOWN', 'LIFT PORTCULLIS', 'LIFT GATE'
+    'RING BELL', 'RING THE BELL', 'SLEEP', 'TAKE A NAP', 'LIE DOWN', 'LAY DOWN', 'LIFT PORTCULLIS', 'LIFT GATE',
+    'OPEN PORTCULLIS', 'OPEN GATE', 'READ SIGN'
 ]
