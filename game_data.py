@@ -18,6 +18,10 @@ directional_moves = [
     'CLIMB UP', 'CLIMB DOWN'
 ]
 
+special_commands = [
+    'RING BELL', 'RING THE BELL', 'SLEEP', 'TAKE A NAP', 'LIE DOWN', 'LAY DOWN'
+]
+
 # Map Data is indexed by Room Number and has stuff within
 game_map = {
     1: {
@@ -47,8 +51,8 @@ game_map = {
     4: {
         'name': 'BELL TOWER',
         'short_desc': 'YOU ARE IN THE BELL TOWER',
-        'long_desc': 'YOU FIND YOURSELF IN THE BELL TOWER. THERE IS FAINT MUSIC COMING FROM THE WEST.',
-        'travel': [0, 0, 0, 10, 0, 2, 0],
+        'long_desc': 'YOU ARE IN THE BELL TOWER, ABOVE THE GREAT HALL. THERE IS FAINT MUSIC COMING FROM THE WEST.',
+        'travel': [0, 0, 0, 10, 15, 2, 0],
         'is_lit': True,
         'points': 10
     },
@@ -87,7 +91,7 @@ game_map = {
     9: {
         'name': 'DRAINAGE DITCH',
         'short_desc': 'YOU ARE IN A DRAINAGE DITCH',
-        'long_desc': 'YOU HAVE SLID DOWN TO THE BOTTOM OF THE DRAINAGE DITCH.',
+        'long_desc': 'YOU HAVE SLID DOWN TO THE BOTTOM OF THE DRAINAGE DITCH, WATER MUST FLOW DOWN AND THROUGH HERE, WHAT A MESS!',
         'travel': [0, 0, 0, 0, 8, 11, 0],
         'is_lit': True,
         'points': 10
@@ -123,6 +127,14 @@ game_map = {
         'travel': [14, 12, 14, 12, 14, 12, 0],
         'is_lit': False,
         'points': 15
+    },
+    15: {
+        'name': 'UPPER TOWER',
+        'short_desc': 'YOU ARE IN THE UPPER BELL TOWER',
+        'long_desc': 'YOU ARE AT THE VERY TOP OF THE BELL TOWER, THERE IS A LARGE BRONZE BELL HOOKED TO A SYSTEM OF ROPES AND PULLEYS.',
+        'travel': [0, 0, 0, 0, 0, 4, 0],
+        'is_lit': True,
+        'points': 10
     }
 }
 
@@ -131,17 +143,17 @@ obstacles = {
     1: {
         'name': 'STEEL DOOR',
         'short_desc': 'LOCKED STEEL DOOR',
-        'long_desc': 'THE PASSAGE IS BLOCKED BY A HEAVY STEEL DOOR.',
+        'long_desc': 'A HEAVY STEEL DOOR THAT IS BLOCKING YOUR PASSAGE.',
         'defeated_by': [2],  # Object ID that will overcome this obstacle
         'points': 5,
         'replaced_by': [0]  # Obstacle is not replaced, effectively disappears from gameplay
     },
     2: {
         'name': 'WOOD DOOR',
-        'short_desc': 'A LOCKED WOODEN DOOR',
-        'long_desc': 'THE PASSAGE IS BLOCKED BY A VERY HEAVY WOODEN DOOR.',
+        'short_desc': 'A HEAVY WOODEN DOOR',
+        'long_desc': 'A VERY HEAVY WOODEN DOOR THAT APPEARS LOCKED.',
         'defeated_by': [2],
-        'points': 5,
+        'points': 0,  # Object is simply present in gameplay, need not be defeated
         'replaced_by': [0]
     },
     3: {
@@ -150,7 +162,7 @@ obstacles = {
         'long_desc': 'A FIRE-BREATHING DRAGON, VERY MENACING AND VERY DEADLY.',
         'defeated_by': [3, 4],   # Object IDs that will overcome this obstacle
         'points': 100,
-        'replaced_by': [3]  # Obstacle that is swapped in, once obstacle is defeated
+        'replaced_by': [4]  # Obstacle that is swapped in, once obstacle is defeated
     },
     4: {
         'name': 'DEAD DRAGON',
@@ -158,7 +170,7 @@ obstacles = {
         'long_desc': 'THE DEAD BODY OF A LARGE DRAGON.',
         'defeated_by': [0],  # Object is simply present in gameplay, need not be defeated
         'points': 0,
-        'replaced_by': [(4, 10)]  # obstacle that is swapped in after second parameter of turns
+        'replaced_by': [(5, 10)]  # Obstacle that is swapped in after second parameter of turns
     },
     5: {
         'name': 'ROTTING CARCASS',
@@ -184,7 +196,6 @@ obst_placement = [
     # (ID makes the obstacle uniquely identifiable, allowing use of more than one and can
     # define a placement between rooms - unlock door between rooms 2 & 6 for example)
     [2, 2, 3, 1],  # Great Hall: Wooden Door, West
-    [2, 4, 0, 2],  # Great Hall: Dead Dragon, North
     [6, 2, 1, 1],  # Lounge: Wooden Door, East
     [9, 6, 5, 3]  # Ditch: Debris, Down
 ]

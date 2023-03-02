@@ -9,4 +9,4 @@ In the game type **HELP** for a little help, and **QUIT** to exit the
 game.
 
 
-*#Next, work out picking up and dropping objects.*
+*#Next, work out using objects on obstacles*

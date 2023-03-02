@@ -252,9 +252,27 @@ def take_object(command):
             break
 
     if take_success:
-        print(f'YOU HAVE ADDED THE {_object} TO YOUR INVENTORY')
+        print(f'\nYOU HAVE ADDED THE {_object} TO YOUR INVENTORY')
     else:
-        print(f'THERE DOES NOT SEEM TO BE A {_object} HERE TO TAKE')
+        print(f'\nTHERE DOES NOT SEEM TO BE A {_object} HERE TO TAKE')
+
+
+def special_commands(command):
+    global turn_total
+
+    if command[:4] == 'RING' and command[-4:] == 'BELL':
+        if current_room == 15:  # Only works in the Upper Bell Tower
+            print(f'\nYOU STRIKE THE BELL WITH YOUR CLOSED FIST, THE BELL RESPONDS WITH A VERY LOW AND QUIET HUM... AND YOUR HAND THROBS.')
+        else:
+            print(f'\nSORRY, THERE IS NO BELL TO RING')
+
+    elif command == 'SLEEP' or command == 'TAKE A NAP' or command == 'LIE DOWN' or command == 'LAY DOWN':
+        print(f'\nSUDDENLY, FEELING VERY TIRED, YOU LIE DOWN ON THE VERY SPOT YOU WERE STANDING AND FALL FAST ASLEEP.')
+        turn_total += 1
+        command = input('> ZZZZZZZZZZZZZZZ ')
+        turn_total += 1
+        print(f'\nZZZZ HRMMMM PFZZZZZZ... HUH, WHA? YOU WAKE UP IN A BIT OF A DAZE.')
+        turn_total += 1
 
 
 def display_room_help_text():
@@ -294,6 +312,12 @@ def player_input(room=current_room):
         display_room_objects(current_room)
         score -= 1
 
+    elif command[0:4] == 'DROP':
+        drop_object(command)
+
+    elif command[0:4] == 'TAKE':
+        take_object(command)
+
     elif command == 'INV DETAIL' or command == 'INVENTORY DETAIL':
         display_inventory(True)
 
@@ -301,11 +325,8 @@ def player_input(room=current_room):
         display_inventory(False)
         score -= 1
 
-    elif command[0:4] == 'DROP':
-        drop_object(command)
-
-    elif command[0:4] == 'TAKE':
-        take_object(command)
+    elif command in game_data.special_commands:
+        special_commands(command)
 
     elif command == 'HELP':
         display_room_help_text()
