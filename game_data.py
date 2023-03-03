@@ -18,6 +18,13 @@ directional_moves = [
     'CLIMB UP', 'CLIMB DOWN'
 ]
 
+death_scenario = [
+    'ARRRRGGGGHHHH... YOU FELL INTO A BOTTOMLESS PIT.',
+    'YOU TRIPPED OVER WHAT SEEMED LIKE A DEAD BODY.',
+    'OUT OF THE DARKNESS, A R.O.U.S. (RODENT OF UNUSUAL SIZE) ATTACKS YOU',
+    'ALL OF A SUDDEN, A LARGE OBJECT FELL FROM ABOVE AND HIT YOU IN THE HEAD.'
+]
+
 # Map Data is indexed by Room Number and has stuff within
 game_map = {
     1: {
@@ -47,7 +54,7 @@ game_map = {
     4: {
         'name': 'BELL TOWER',
         'short_desc': 'YOU ARE IN THE BELL TOWER',
-        'long_desc': 'YOU ARE IN THE BELL TOWER, ABOVE THE GREAT HALL. THERE IS FAINT MUSIC COMING FROM THE WEST.',
+        'long_desc': 'YOU ARE IN THE BELL TOWER ABOVE THE GREAT HALL. SEVERAL ROPES HANG ABOVE AND THERE IS FAINT MUSIC COMING FROM THE WEST.',
         'travel': [0, 0, 0, 10, 15, 2, 0],
         'is_lit': True,
         'points': 10
@@ -79,7 +86,7 @@ game_map = {
     8: {
         'name': 'GRAVELY ROAD',
         'short_desc': 'YOU ARE ON A GRAVELY ROAD',
-        'long_desc': 'YOU ARE STANDING ON A LONG, GRAVELY ROAD. THERE IS A DRAINAGE DITCH TO THE EAST.',
+        'long_desc': 'YOU ARE STANDING ON A LONG, GRAVELY ROAD.',
         'travel': [7, 9, 0, 0, 0, 9, 0],
         'is_lit': True,
         'points': 0
@@ -135,8 +142,8 @@ game_map = {
     16: {
         'name': 'CASTLE GATE',
         'short_desc': 'YOU ARE AT THE CASTLE ENTRANCE',
-        'long_desc': 'YOU ARE STANDING AT THE CASTLE ENTRANCE, A LARGE STONE ARCHWAY LEADS NORTH INTO THE CASTLE. A WELL WORN DIRT PATH LEADS WEST AROUND THE CASTLE.',
-        'travel': [2, 0, 1, 17, 0, 0, 0],
+        'long_desc': 'YOU ARE STANDING AT THE CASTLE ENTRANCE, A LARGE STONE ARCHWAY LEADS NORTH INTO THE CASTLE. THE CASTLE IS HUGE!',
+        'travel': [2, 0, 1, 17, 19, 0, 0],
         'is_lit': True,
         'points': 0
     },
@@ -155,6 +162,14 @@ game_map = {
         'travel': [0, 17, 0, 0, 0, 0, 0],
         'is_lit': True,
         'points': 0
+    },
+    19: {
+        'name': 'PORTCULLIS',
+        'short_desc': 'YOU ARE AT THE PORTCULLIS TOP',
+        'long_desc': 'YOU HAVE CLIMBED TO THE TOP OF THE PORTCULLIS. FROM HERE, YOU GET A NICE VIEW OF THE BRIDGE AND SPOT A DIRT PATH LEADING WEST ALONG THE CASTLE WALL.',
+        'travel': [0, 0, 0, 0, 0, 16, 0],
+        'is_lit': True,
+        'points': 10
     }
 }
 
@@ -241,6 +256,15 @@ obstacles = {
         'defeated_by': [0],
         'points': 0,
         'replaced_by': [-1]
+    },
+    11: {
+        'name': 'SIGN',
+        'short_desc': 'A SMALL METAL SIGN',
+        'long_desc': 'A SMALL SIGN IS BOLTED TO A POST.',
+        'text': 'IT READS \'CAUTION: DRAINAGE DITCH BELOW\'',
+        'defeated_by': [0],
+        'points': 0,
+        'replaced_by': [-1]
     }
 }
 
@@ -254,7 +278,8 @@ obst_placement = [
     [6, 2, 1, 1],  # Lounge: Wooden Door, East
     [9, 6, 5, 3],  # Ditch: Debris, Down
     [17, 9, 0, 5],  # Path: Sign, North
-    [18, 10, 0, 6]  # Path: Sign, North
+    [18, 10, 0, 6],  # Path: Sign, North
+    [8, 11, 1, 7]  # Road: Sign, East
 ]
 
 
@@ -293,6 +318,13 @@ objects = {
         'description': 'A HAM ON RYE WITH LETTUCE, TOMATO AND A MUSTARD-LIKE SPREAD. LOOKS DELICIOUS',
         'useful_on': [-1],  # -1 Represents the player? Maybe?
         'reusable': False
+    },
+    6: {
+        'name': 'BRASS LAMP',
+        'short_name': 'LAMP',
+        'description': 'A SHINY BRASS LAMP. KEEP THIS IN YOUR INVENTORY TO LIGHT YOUR WAY THROUGH DARK PLACES',
+        'useful_on': [999],  # -1 Represents the player? Maybe?
+        'reusable': True
     }
 }
 
@@ -301,11 +333,12 @@ object_placement = [
     # Room, Object
     [6, 2],  # Lounge, Skeleton Key
     [9, 3],  # Drainage Ditch, Sword
-    [14, 1]  # Pipe Maze, Coin
+    [14, 1],  # Pipe Maze, Coin
+    [19, 6]  # Portcullis, Lamp
 ]
 
 
 special_commands = [
-    'RING BELL', 'RING THE BELL', 'SLEEP', 'TAKE A NAP', 'LIE DOWN', 'LAY DOWN', 'LIFT PORTCULLIS', 'LIFT GATE',
-    'OPEN PORTCULLIS', 'OPEN GATE', 'READ SIGN'
+    'RING BELL', 'RING THE BELL', 'SLEEP', 'TAKE A NAP', 'LIE DOWN', 'LAY DOWN', 'LIFT PORTCULLIS', 'OPEN PORTCULLIS',
+    'READ SIGN', 'USE LAMP', 'LIGHT LAMP', 'LIGHT THE LAMP', 'RUB LAMP', 'RUB THE LAMP'
 ]

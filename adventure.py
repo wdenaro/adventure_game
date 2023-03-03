@@ -5,6 +5,7 @@ current_room = 1
 inventory = []
 turn_total = 1
 score = 50
+dark_moves = 0
 
 
 def get_room_info(room):
@@ -141,7 +142,7 @@ def initiate_move(command):
     :return:
     '''
 
-    global current_room, score
+    global current_room, score, dark_moves
 
     _blocked = False
 
@@ -176,9 +177,20 @@ def initiate_move(command):
             score += game_data.game_map[current_room]['points']  # Award points (when applicable)
             game_data.game_map[current_room]['points'] = 0  # Reduce points (awarded only once)
 
-            display_room_text(current_room, 'long')
-            display_room_obstacles(current_room)
-            display_room_objects(current_room)
+            if game_data.game_map[current_room]['is_lit'] or 6 in inventory:
+                dark_moves = 0
+                display_room_text(current_room, 'long')
+                display_room_obstacles(current_room)
+                display_room_objects(current_room)
+
+            else:
+                dark_moves += 1
+                if dark_moves == 1:
+                    print('\nYOU ARE IN COMPLETE DARKNESS. BETTER TO NAVIGATE DARK PLACES WITH A LAMP.')
+                elif dark_moves == 2:
+                    print('\nIT IS PITCH BLACK. BE CAREFUL, NAVIGATING DARK SPACES CAN BE DEADLY.')
+                elif dark_moves == 3:
+                    death_scenario('DARK')
 
 
 def display_inventory(long=False):
@@ -266,22 +278,27 @@ def special_commands(command):
 
     if command[:4] == 'RING' and command[-4:] == 'BELL':
         if current_room == 15:  # Only works in the Upper Bell Tower
-            print(f'\nYOU STRIKE THE BELL WITH YOUR CLOSED FIST, THE BELL RESPONDS WITH A VERY LOW AND QUIET HUM... AND YOUR HAND THROBS.')
+            print('\nYOU STRIKE THE BELL WITH YOUR CLOSED FIST, THE BELL RESPONDS WITH A VERY LOW AND QUIET HUM... AND YOUR HAND THROBS.')
         else:
-            print(f'\nSORRY, THERE IS NO BELL TO RING')
+            print('\nSORRY, THERE IS NO BELL TO RING')
 
-    elif command == 'LIFT PORTCULLIS' or command == 'LIFT GATE' or command == 'OPEN PORTCULLIS' or command == 'OPEN GATE':
-        if current_room == 16:  # Only works at the castle entrance
+    elif command == 'LIFT PORTCULLIS' or command == 'OPEN PORTCULLIS':
+        if current_room == 16:  # Only works at the castle gate
             for _obj in game_data.obst_placement:
                 if _obj[0] == 16:
                     if _obj[1] == 7:
-                        print(f'\nYOU LIFT THE {command[5:]} WITHOUT ANY ISSUE AT ALL. YOU THINK \'WOW\', THAT WAS EASY.')
-                        _obj[1] = 8
+                        print('\nYOU APPROACH THE MASSIVE IRON PORTCULLIS AND ATTEMPT TO RAISE IT. THERE IS NO USE, IT IS FAR TOO HEAVY TO LIFT.')
                     else:
-                        print(f'\nTHE {command[5:]} ALREADY IN THE UP POSITION, A STRONG ADVENTURER CAME BY AND LIFTED IT EARLIER.')
+                        print('\nTHE PORTCULLIS ALREADY IN THE UP POSITION, A STRONG ADVENTURER CAME BY AND LIFTED IT EARLIER.')
                     break
         else:
             print(f'\nSORRY, THERE IS NO {command[5:]} HERE TO LIFT')
+
+    elif command == 'USE LAMP' or command == 'LIGHT LAMP' or command == 'LIGHT THE LAMP':
+        if 6 in inventory:
+            print('\nTHE LAMP IS ALREADY LIT AND HANGS ON THE OUTSIDE OF YOUR BACKPACK, SO JUST HAVING IT IN YOUR INVENTORY WILL DO THE TRICK.')
+        else:
+            print('\nSORRY, YOU DON\'T HAVE A LAMP')
 
     elif command == 'READ SIGN':
         if current_room == 17:
@@ -292,9 +309,12 @@ def special_commands(command):
             sign_text = game_data.obstacles[10]['text']
             print(f'\n{sign_text}')
 
-        else:
-            print(f'\nTHERE IS NO SIGN TO READ HERE')
+        elif current_room == 8:
+            sign_text = game_data.obstacles[11]['text']
+            print(f'\n{sign_text}')
 
+        else:
+            print('\nTHERE IS NO SIGN TO READ HERE')
 
     elif command == 'SLEEP' or command == 'TAKE A NAP' or command == 'LIE DOWN' or command == 'LAY DOWN':
         print(f'\nSUDDENLY, FEELING VERY TIRED, YOU LIE DOWN ON THE VERY SPOT YOU WERE STANDING AND FALL FAST ASLEEP.')
@@ -303,6 +323,16 @@ def special_commands(command):
         turn_total += 1
         print(f'\nZZZZ HRMMMM PFZZZZZZ... HUH, WHA? YOU WAKE UP IN A BIT OF A DAZE.')
         turn_total += 1
+
+
+def death_scenario(killed_by):
+
+    if killed_by == 'DARK':
+        r = random.choice(game_data.death_scenario)
+        print(f'\n{r}')
+        print('UNFORTUNATELY, YOU HAVE DIED FROM YOUR INJURIES. YOU SHOULD NOT NAVIGATE DARK SPACES WITHOUT A LAMP.')
+        print('**TODO**NEED GRACEFUL ENDING/RESTART HERE')
+        exit()
 
 
 def display_room_help_text():
@@ -337,10 +367,13 @@ def player_input(room=current_room):
         initiate_move(command)
 
     elif command == 'LOOK':
-        display_room_text(current_room, 'long')
-        display_room_obstacles(current_room)
-        display_room_objects(current_room)
-        score -= 1
+        if game_data.game_map[current_room]['is_lit'] or 6 in inventory:
+            display_room_text(current_room, 'long')
+            display_room_obstacles(current_room)
+            display_room_objects(current_room)
+            score -= 1
+        else:
+            print('\nYOU SEE NOTHING, IT IS COMPLETELY DARK. CARRY A LAMP IN YOUR INVENTORY TO FIX THIS PROBLEM.')
 
     elif command[0:4] == 'DROP':
         drop_object(command)
